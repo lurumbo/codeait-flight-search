@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import * as serviceWorker from './serviceWorker';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
 import Flights from  './components/Flights';
 import Search from './components/Search';
 import NotFound from './components/NotFound';
