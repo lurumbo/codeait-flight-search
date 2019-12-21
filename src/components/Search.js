@@ -1,9 +1,22 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
+import Header from './Header';
 import ListItem from './ListItem';
 import airports from '../data/routes.json';
 
+const Button = (props) => {
+
+    const org = props.origin.code;
+    const dest = props.destination.code;
+    const path = `/flights?org=${org}&dest=${dest}`;
+
+    return (
+        <Link to={path} className='btn btn-primary'>
+            Start your journey!
+        </Link>
+    )
+}
 
 class Search extends Component {
 
@@ -17,9 +30,10 @@ class Search extends Component {
     }
 
     onClickOriginAirportHandler (airport) {
-        console.log ('selected:', airport);
+        console.log ('origin:', airport);
         this.setState({
-            airportSelected: airport
+            airportSelected: airport,
+            destination: null
         });
     }
 
@@ -40,9 +54,10 @@ class Search extends Component {
 
         return (
             <Container>
+                <Header />
                 <Row className="header">
                     <Col>
-                        <h1>Select your {isOrigin ? 'origin' : 'destination'}</h1>
+                        <h2>Select your {isOrigin ? 'origin' : 'destination'}</h2>
                     </Col>
                 </Row>
                 <Row className="aiportInformation">
@@ -79,6 +94,17 @@ class Search extends Component {
                                     )
                                 }
                             </ul>
+                            <div>
+                                {
+                                    this.state.destination ? 
+                                        <Button 
+                                            origin={this.state.airportSelected}
+                                            destination={this.state.destination}  
+                                        />
+                                    :
+                                        ''
+                                }
+                            </div>
                         </Col>
                     
                 </Row>
@@ -86,7 +112,7 @@ class Search extends Component {
                 <Row>                    
                     <Col>
                         <article>
-                            <h3>Select your {isOrigin ? 'origin' : 'destination'}</h3>
+                            <h3>About select your {isOrigin ? 'origin' : 'destination'}</h3>
                             <section>
                             <p>
                                 Here should be a card approach list of all available origin
