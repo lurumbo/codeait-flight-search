@@ -1,29 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
-//import logo from './logo.svg';
 import './App.css';
+import Header from './components/Header';
+import Search from './components/Search';
 
 function App() {
   return (
     <Container>
+      <Header />
       <Row>
         <Col>
-          <h1>Home Page</h1>   
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <article>
-            <section>
-              <h2>Promotions</h2>
-            </section>
-            <section>
-              <div>
-                <Link to="/search">Search</Link>
-              </div>
-            </section>
-          </article>
+          <Link to="/search" className="btn btn-primary">Search</Link>
         </Col>
       </Row>
     </Container>
