@@ -2,17 +2,17 @@ import React, {Component} from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Header from './Header';
+import FlightListItem from './FlightListItem';
 import flightsCOR from '../data/epa-cor.json';
 import flightsMDZ from '../data/epa-mdz.json';
-import FlightListItem from './FlightListItem';
 import airports from '../data/routes.json';
 const queryString = require('query-string');
 
 const Button = (props) => {
 
-    const org = props.outbound;
-    const dest = props.inbound;
-    const path = `/${props.to}?org=${org}&dest=${dest}`;
+    const out = props.outbound;
+    const inb = props.inbound;
+    const path = `/${props.to}?out=${out}&inb=${inb}`;
 
     return (
         <Link to={path} className='btn btn-primary'>
@@ -73,6 +73,7 @@ class Flights extends Component {
                             {
                                 this.state.origins.map( origin => 
                                     <FlightListItem 
+                                        type="OUTBOUND"
                                         code={origin.origin}
                                         location={this.state.orgAir.location.cityName}
                                         departure={origin.departureDate}
@@ -93,6 +94,7 @@ class Flights extends Component {
                             {
                                 this.state.destinations.map( destination => 
                                     <FlightListItem 
+                                        type="INBOUND"
                                         code={destination.origin}
                                         location={this.state.destAir.location.cityName}
                                         departure={destination.departureDate}
@@ -112,7 +114,7 @@ class Flights extends Component {
                         {
                             this.state.outbound && this.state.inbound ?
                                 <Button 
-                                    to="/summary" 
+                                    to="summary" 
                                     outbound={this.state.outbound}
                                     inbound={this.state.inbound}
                                     text="Finish"

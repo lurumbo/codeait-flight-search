@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
 import Media from 'react-bootstrap/Media';
-import image from  './airport-24.png';
+import imageASC from  './airport-24-asc.png';
+import imageDESC from  './airport-24-desc.png';
 import moment from 'moment';
 
 class FlightListItem extends Component {
 
     render () {
+
+        const image = (this.props.type === "OUTBOUND") ? imageASC : imageDESC;
+
         return (
             <Media 
                 as="li" 
@@ -27,7 +31,7 @@ class FlightListItem extends Component {
                         <ul>
                             <li>Departure: {moment(this.props.departure).format('YYYY/MM/DD, hh:mm:ss')} hs</li>
                             <li>Arrival: {moment(this.props.arrival).format('YYYY/MM/DD, hh:mm:ss')} hs</li>
-                            <li>Price: {this.props.price} ${this.props.currency}</li>
+                            <li>Price:  ${this.props.currency} {this.props.price}</li>
                         </ul>
                     </div>
                 </Media.Body>
