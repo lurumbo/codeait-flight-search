@@ -7,6 +7,7 @@ import './index.css';
 import App from './App';
 import Flights from  './components/Flights';
 import Search from './components/Search';
+import Summary from './components/Summary';
 import NotFound from './components/NotFound';
 
 const routing = (
@@ -15,6 +16,7 @@ const routing = (
             <Route exact path="/" component={App} />
             <Route path="/flights" component={Flights} />
             <Route path="/search" component={Search} />
+            <Route path="/summary" component={Summary} />
             <Route component={NotFound} />
         </Switch>
     </Router>
