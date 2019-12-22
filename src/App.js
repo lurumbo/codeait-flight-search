@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import './App.css';
 import Header from './components/Header';
-import Search from './components/Search';
 
 function App() {
   return (
