@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, InputGroup, FormControl, Button } from 'react-bootstrap';
 import Header from './Header';
 import ListItem from './ListItem';
 import airports from '../data/routes.json';
 
-const Button = (props) => {
+const ButtonSearch = (props) => {
 
     const org = props.origin.code;
     const dest = props.destination.code;
@@ -24,9 +24,11 @@ class Search extends Component {
         super(props);
         this.state = {
             airports: airports.routes,
+            filtered: airports.routes,
             airportSelected: null,
             destination: null
         }
+        window.airports = airports.routes;
     }
 
     onClickOriginAirportHandler (airport) {
@@ -41,6 +43,25 @@ class Search extends Component {
         console.log('destination', destination);
         this.setState({
             destination: destination
+        })
+    }
+
+    normalize (term) {
+        return term.toLocaleLowerCase().trim();
+    }
+
+    searchInputHandler (e) {
+        const searchTerm = this.normalize(e.target.value);
+        let filtered = this.state.airports;
+        if (searchTerm !== null || searchTerm !== "") {
+            filtered = filtered.filter( airport => {
+                const cityNormalized = this.normalize(airport.location.cityName);
+                const codeNormalized = this.normalize(airport.code);
+                return cityNormalized.includes(searchTerm) || codeNormalized.includes(searchTerm)
+            });
+        }
+        this.setState({
+            filtered
         })
     }
 
@@ -62,11 +83,21 @@ class Search extends Component {
                 </Row>
                 <Row className="aiportInformation">
                     <Col>
-                        <section>                            
-                            <p>Please, choose your origin airport.</p>
+                        <section>
+                            <p>Please, search an origin airport</p>
+                            <InputGroup className="mb-3">
+                                <FormControl
+                                    placeholder="Airport's location or code"
+                                    aria-label="Airport's location or code"
+                                    aria-describedby="basic-addon2"
+                                    onChange={(e) => this.searchInputHandler(e)}
+                                />                                
+                            </InputGroup>
+                            <p>or..</p>                            
+                            <p>Choose your origin airport.</p>
                             <ul className="list-unstyled">
                                 {
-                                    this.state.airports.map( airport => 
+                                    this.state.filtered.map( airport => 
                                         <ListItem 
                                             airport={airport}
                                             location={airport.location.cityName} 
@@ -97,7 +128,7 @@ class Search extends Component {
                             <div>
                                 {
                                     this.state.destination ? 
-                                        <Button 
+                                        <ButtonSearch 
                                             origin={this.state.airportSelected}
                                             destination={this.state.destination}  
                                         />
