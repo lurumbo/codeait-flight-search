@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, InputGroup, FormControl, Button } from 'react-bootstrap';
+import FlightsContext, {FlightsConsumer} from './FlightsContext';
 import Header from './Header';
 import ListItem from './ListItem';
 import airports from '../data/routes.json';
@@ -18,67 +19,97 @@ const ButtonSearch = (props) => {
     )
 }
 
+const CardDescription = () => (
+    <Row>                    
+        <Col>
+            <article>
+                <h3>About select your origin</h3>
+                <section>
+                <p>
+                    Here should be a card approach list of all available origin
+                    airports. When an origin airport is selected, the list should
+                    display all available destination for given selection. The card
+                    should have:
+                </p>
+                <ul>
+                    <li>A dummy image</li>
+                    <li>Should be selectable by clicking the whole card</li>
+                    <li>Display the airport code</li>
+                    <li>Display the location city name</li>
+                </ul>
+                </section>
+                <div>
+                    <Link to="/flights">Start your journey!</Link>
+                </div>
+                <br/>
+            </article>
+        </Col>
+    </Row>
+);
+
+const OriginAirportsList = () => (
+    <FlightsConsumer>        
+        {            
+            context => (
+                <ul className="list-unstyled">
+                    {                                                
+                        context.state.airportsFiltered.map( airport => 
+                            <ListItem 
+                                airport={airport}
+                                location={airport.location.cityName} 
+                                code={airport.code} 
+                                key={airport.code}
+                                onClick={() => context.onClickOriginAirportHandler(airport)}
+                            />
+                        )
+                    }
+                </ul>
+            )
+        }
+    </FlightsConsumer>
+)
+
+const DestinationAirportsList = () => (
+    <FlightsConsumer>        
+        {            
+            context => (
+                <ul className="list-unstyled">
+                    {                                                
+                        context.state.airportSelected?.destinations.map( destination => 
+                            <ListItem 
+                                airport={destination}
+                                location={destination.location.cityName} 
+                                code={destination.code} 
+                                key={destination.code}
+                                onClick={() => context.onClickDestinationAirportHandler(destination)}
+                            />
+                        )
+                    }
+                </ul>
+            )
+        }
+    </FlightsConsumer>
+);
+
 class Search extends Component {
 
-    constructor (props) {
-        super(props);
-        this.state = {
-            airports: airports.routes,
-            filtered: airports.routes,
-            airportSelected: null,
-            destination: null
-        }
-        window.airports = airports.routes;
-    }
-
-    onClickOriginAirportHandler (airport) {
-        console.log ('origin:', airport);
-        this.setState({
-            airportSelected: airport,
-            destination: null
-        });
-    }
-
-    onClickDestinationAirportHandler (destination) {
-        console.log('destination', destination);
-        this.setState({
-            destination: destination
-        })
-    }
-
-    normalize (term) {
-        return term.toLocaleLowerCase().trim();
-    }
-
-    searchInputHandler (e) {
-        const searchTerm = this.normalize(e.target.value);
-        let filtered = this.state.airports;
-        if (searchTerm !== null || searchTerm !== "") {
-            filtered = filtered.filter( airport => {
-                const cityNormalized = this.normalize(airport.location.cityName);
-                const codeNormalized = this.normalize(airport.code);
-                return cityNormalized.includes(searchTerm) || codeNormalized.includes(searchTerm)
-            });
-        }
-        this.setState({
-            filtered
-        })
-    }
+    static contextType = FlightsContext;
 
     render () {
-        const isOrigin = true;
 
-        const airport = this.state.airportSelected;
-        const destinationMessage = this.state.airportSelected ? 
-            `Destinations available for ${airport.location.cityName} aiport.` : 
-            `Destinations available for selected aiport.`;
+        console.log(this.context)
+
+        const airport = this.context.state.airportSelected;
+        const destinationMessage = this.context.state.airportSelected 
+                ? `Destinations available for ${airport.location.cityName} aiport.` 
+                : `Destinations available for selected aiport.`;
 
         return (
             <Container>
                 <Header />
                 <Row className="header section__container">
                     <Col>
-                        <h2>Select your {isOrigin ? 'origin' : 'destination'}</h2>
+                        <h2>Select your origin</h2>
                     </Col>
                 </Row>
                 <Row className="aiportInformation section__container">
@@ -90,80 +121,32 @@ class Search extends Component {
                                     placeholder="Airport's location or code"
                                     aria-label="Airport's location or code"
                                     aria-describedby="basic-addon2"
-                                    onChange={(e) => this.searchInputHandler(e)}
+                                    onChange={(e) => this.context.searchInputHandler(e)}
                                 />                                
                             </InputGroup>
                             <p>or..</p>                            
                             <p>Choose your origin airport.</p>
-                            <ul className="list-unstyled">
-                                {
-                                    this.state.filtered.map( airport => 
-                                        <ListItem 
-                                            airport={airport}
-                                            location={airport.location.cityName} 
-                                            code={airport.code} 
-                                            key={airport.code}
-                                            onClick={() => this.onClickOriginAirportHandler(airport)}
-                                        />
-                                    )
-                                }
-                            </ul>
+                            <OriginAirportsList />                        
                         </section> 
                     </Col>
                         <Col>
-                            <p>{destinationMessage}</p>                            
-                            <ul className="list-unstyled">
-                                {
-                                    this.state.airportSelected?.destinations.map ( destination => 
-                                        <ListItem 
-                                            airport={destination}
-                                            location={destination.location.cityName} 
-                                            code={destination.code} 
-                                            key={destination.code}
-                                            onClick={() => this.onClickDestinationAirportHandler(destination)} 
-                                        />
-                                    )
-                                }
-                            </ul>
+                            <p>{destinationMessage}</p>                                                      
+                            <DestinationAirportsList />
                             <div>
                                 {
-                                    this.state.destination ? 
+                                    this.context.state.destination ? 
                                         <ButtonSearch 
-                                            origin={this.state.airportSelected}
-                                            destination={this.state.destination}  
+                                            origin={this.context.state.airportSelected}
+                                            destination={this.context.state.destination}  
                                         />
                                     :
                                         ''
                                 }
                             </div>
                         </Col>
-                    
                 </Row>
                 <hr />
-                <Row>                    
-                    <Col>
-                        <article>
-                            <h3>About select your {isOrigin ? 'origin' : 'destination'}</h3>
-                            <section>
-                            <p>
-                                Here should be a card approach list of all available origin
-                                airports. When an origin airport is selected, the list should
-                                display all available destination for given selection. The card
-                                should have:
-                            </p>
-                            <ul>
-                                <li>A dummy image</li>
-                                <li>Should be selectable by clicking the whole card</li>
-                                <li>Display the airport code</li>
-                                <li>Display the location city name</li>
-                            </ul>
-                            </section>
-                            <div>
-                                <Link to="/flights">Start your journey!</Link>
-                            </div>
-                        </article>
-                    </Col>
-                </Row>
+                <CardDescription />
             </Container>
         )
     }

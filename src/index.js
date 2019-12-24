@@ -10,12 +10,19 @@ import Search from './components/Search';
 import Summary from './components/Summary';
 import NotFound from './components/NotFound';
 
+import FlightsDataProvider from './components/FlightsDataProvider';
+import FlightsContext from './components/FlightsContext';
+
 const routing = (
     <Router>
         <Switch>
             <Route exact path="/" component={App} />
+            <Route path="/search">
+                <FlightsDataProvider>
+                    <Search />           
+                </FlightsDataProvider>
+            </Route>
             <Route path="/flights" component={Flights} />
-            <Route path="/search" component={Search} />
             <Route path="/summary" component={Summary} />
             <Route component={NotFound} />
         </Switch>
