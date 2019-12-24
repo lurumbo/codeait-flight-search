@@ -22,7 +22,11 @@ const routing = (
                     <Search />           
                 </FlightsDataProvider>
             </Route>
-            <Route path="/flights" component={Flights} />
+            <Route path="/flights">
+                <FlightsDataProvider>
+                    <Flights />           
+                </FlightsDataProvider>
+            </Route>
             <Route path="/summary" component={Summary} />
             <Route component={NotFound} />
         </Switch>

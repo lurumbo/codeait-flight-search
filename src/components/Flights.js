@@ -1,12 +1,9 @@
 import React, {Component} from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import FlightsContext from './FlightsContext';
 import Header from './Header';
 import FlightListItem from './FlightListItem';
-import flightsCOR from '../data/epa-cor.json';
-import flightsMDZ from '../data/epa-mdz.json';
-import airports from '../data/routes.json';
-const queryString = require('query-string');
 
 const Button = (props) => {
 
@@ -24,85 +21,53 @@ const Button = (props) => {
 
 class Flights extends Component {
 
-    constructor (props) {
-        super(props);
-        const params = queryString.parse(this.props.location.search);
-        const flights = flightsCOR.flights.concat(flightsMDZ.flights);
-        const origins = flights.filter(flight => flight.origin === params.org && flight.destination === params.dest);
-        const destinations = flights.filter(flight => flight.origin === params.dest && flight.destination === params.org);
-        const orgAir = airports.routes.filter(airport => airport.code === params.org)[0];
-        const destAir = airports.routes.filter(airport => airport.code === params.dest)[0];
-        this.state = {
-            orgCode: params.org,
-            destCode: params.dest,
-            outbound: null,
-            inbound: null,
-            flights,
-            origins,
-            destinations,
-            orgAir,
-            destAir,
-        }
-    }
-
-    onClickOutboundFlightHandler (flight) {
-        this.setState({
-            outbound: flight.flightNo
-        })
-    }
-
-    onClickInboundFlightHandler (flight) {
-        this.setState({
-            inbound: flight.flightNo
-        })
-    }
+    static contextType = FlightsContext;
 
     render () {
 
-        console.log(this.state)
-        //console.log( this.state.origins[0].fares[0].prices.afterTax)
+        console.log(this.context)
 
         return (
             <Container>
                 <Header />
                 <Row>
                     <Col>
-                        <h2>Choose your outbound flight from {this.state.orgAir.location.cityName} to {this.state.destAir.location.cityName} </h2>
+                        <h2>Choose your outbound flight from {this.context.state.airportOriginSelected.location.cityName} to {this.context.state.airportDestinationSelected.location.cityName} </h2>
                         <p>List outbound flights...</p>
                         <ul className="list-unstyled">
                             {
-                                this.state.origins.map( origin => 
+                                this.context.state.originFlights.map( origin => 
                                     <FlightListItem 
                                         type="OUTBOUND"
                                         code={origin.origin}
-                                        location={this.state.orgAir.location.cityName}
+                                        location={this.context.state.airportOriginSelected.location.cityName}
                                         departure={origin.departureDate}
                                         arrival={origin.arrivalDate}
                                         price={origin.fares[0].prices.afterTax}
                                         currency={origin.currency}
                                         key={origin.id}
-                                        onClick={() => this.onClickOutboundFlightHandler(origin)}
+                                        onClick={() => this.context.onClickOutboundFlightHandler(origin)}
                                     />
                                 )
                             }
                         </ul>
                     </Col>
                     <Col>
-                        <h2>Choose your inbound flight from {this.state.destAir.location.cityName} to {this.state.orgAir.location.cityName}</h2>
+                        <h2>Choose your inbound flight from {this.context.state.airportDestinationSelected.location.cityName} to {this.context.state.airportOriginSelected.location.cityName}</h2>
                         <p>List inbound flights...</p>
                         <ul className="list-unstyled">
                             {
-                                this.state.destinations.map( destination => 
+                                this.context.state.destinationFlights.map( destination => 
                                     <FlightListItem 
                                         type="INBOUND"
                                         code={destination.origin}
-                                        location={this.state.destAir.location.cityName}
+                                        location={this.context.state.airportDestinationSelected.location.cityName}
                                         departure={destination.departureDate}
                                         arrival={destination.arrivalDate}
                                         price={destination.fares[0].prices.afterTax}
                                         currency={destination.currency}
                                         key={destination.id}
-                                        onClick={() => this.onClickInboundFlightHandler(destination)}
+                                        onClick={() => this.context.onClickInboundFlightHandler(destination)}
                                     />
                                 )
                             }
@@ -112,11 +77,11 @@ class Flights extends Component {
                 <Row>
                     <Col>
                         {
-                            this.state.outbound && this.state.inbound ?
+                            this.context.state.outboundFlightNo && this.context.state.inboundFlightNo ?
                                 <Button 
                                     to="summary" 
-                                    outbound={this.state.outbound}
-                                    inbound={this.state.inbound}
+                                    outbound={this.context.state.outboundFlightNo}
+                                    inbound={this.context.state.inboundFlightNo}
                                     text="Finish"
                                     className="btn btn-primary"
                                 />
