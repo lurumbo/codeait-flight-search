@@ -75,7 +75,7 @@ const DestinationAirportsList = () => (
             context => (
                 <ul className="list-unstyled">
                     {                                                
-                        context.state.airportSelected?.destinations.map( destination => 
+                        context.state.airportOriginSelected?.destinations.map( destination => 
                             <ListItem 
                                 airport={destination}
                                 location={destination.location.cityName} 
@@ -99,8 +99,8 @@ class Search extends Component {
 
         console.log(this.context)
 
-        const airport = this.context.state.airportSelected;
-        const destinationMessage = this.context.state.airportSelected 
+        const airport = this.context.state.airportOriginSelected;
+        const destinationMessage = this.context.state.airportOriginSelected 
                 ? `Destinations available for ${airport.location.cityName} aiport.` 
                 : `Destinations available for selected aiport.`;
 
@@ -134,10 +134,10 @@ class Search extends Component {
                             <DestinationAirportsList />
                             <div>
                                 {
-                                    this.context.state.destination ? 
+                                    this.context.state.airportDestinationSelected ? 
                                         <ButtonSearch 
-                                            origin={this.context.state.airportSelected}
-                                            destination={this.context.state.destination}  
+                                            origin={this.context.state.airportOriginSelected}
+                                            destination={this.context.state.airportDestinationSelected}  
                                         />
                                     :
                                         ''

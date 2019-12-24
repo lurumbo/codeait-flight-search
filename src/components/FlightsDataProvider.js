@@ -24,8 +24,8 @@ class FlightsDataProvider extends Component {
     onClickOriginAirportHandler(airport) {
         console.log ('origin:', airport);
         this.setState({
-            airportSelected: airport,
-            destination: null
+            airportOriginSelected: airport,
+            airportDestinationSelected: null
         });
     }
 
@@ -36,7 +36,7 @@ class FlightsDataProvider extends Component {
     onClickDestinationAirportHandler (destination) {
         console.log('destination', destination);
         this.setState({
-            destination: destination
+            airportDestinationSelected: destination
         })
     }
 
