@@ -76,12 +76,12 @@ class Search extends Component {
         return (
             <Container>
                 <Header />
-                <Row className="header">
+                <Row className="header section__container">
                     <Col>
                         <h2>Select your {isOrigin ? 'origin' : 'destination'}</h2>
                     </Col>
                 </Row>
-                <Row className="aiportInformation">
+                <Row className="aiportInformation section__container">
                     <Col>
                         <section>
                             <p>Please, search an origin airport</p>

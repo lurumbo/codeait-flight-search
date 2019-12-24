@@ -1,5 +1,18 @@
+body {
+  background-color: #F0F3F5;
+}
+
+.section__container {
+  background-color: white;
+  border-radius: 5px;
+}
+
 .header h1 {
   margin: 30px 0 20px 0;
+}
+
+.header h2 {
+  margin: 20px 0 20px 0;
 }
 
 .header__link {
@@ -20,7 +33,7 @@
 
 .airport:hover {  
   cursor: pointer;
-  background-color: honeydew;
+  background-color: #F6F9FC;
 }
 
 .airport__code {
