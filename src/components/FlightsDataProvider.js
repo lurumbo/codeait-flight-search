@@ -19,7 +19,8 @@ class FlightsDataProvider extends Component {
             outboundFlightNo: null,
             inboundFlightNo: null,
             outboundFlight: null,
-            inboundFlight: null
+            inboundFlight: null,
+            airportOriginActive: null
         }
     }
 
@@ -27,11 +28,12 @@ class FlightsDataProvider extends Component {
      * Select the origin airport in Search Screen
      * @param {String} origin 
      */
-    onClickOriginAirportHandler(origin) {
+    onClickOriginAirportHandler(origin, index) {
         console.log ('origin:', origin);
         this.setState({
             airportOriginSelected: origin,
-            airportDestinationSelected: null
+            airportDestinationSelected: null,
+            //airportOriginActive: index
         });
     }
 

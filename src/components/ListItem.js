@@ -5,10 +5,13 @@ import image from  './airport-24.png'
 class ListItem extends Component {
 
     render () {
+
+        const className = (this.props.isActive) ? `airport listitem_active` : `airport`;
+
         return (
             <Media 
                 as="li" 
-                className="airport"
+                className={className}
                 onClick={this.props.onClick}
             >
                 <img

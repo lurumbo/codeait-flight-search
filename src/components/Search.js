@@ -19,7 +19,7 @@ const ButtonSearch = (props) => {
 }
 
 const CardDescription = () => (
-    <Row>                    
+    <Row className="task__section">                    
         <Col>
             <article>
                 <h3>About select your origin</h3>
@@ -52,8 +52,9 @@ const OriginAirportsList = () => (
             context => (
                 <ul className="list-unstyled">
                     {                                                
-                        context.state.airportsFiltered.map( airport => 
-                            <ListItem 
+                        context.state.airportsFiltered.map( (airport) => 
+                            <ListItem                 
+                                isActive={context.state.airportOriginSelected?.code === airport.code ? true : false}
                                 airport={airport}
                                 location={airport.location.cityName} 
                                 code={airport.code} 
@@ -76,6 +77,7 @@ const DestinationAirportsList = () => (
                     {                                                
                         context.state.airportOriginSelected?.destinations.map( destination => 
                             <ListItem 
+                                isActive={context.state.airportDestinationSelected?.code === destination.code ? true : false}
                                 airport={destination}
                                 location={destination.location.cityName} 
                                 code={destination.code} 
@@ -104,7 +106,7 @@ class Search extends Component {
                 : `Destinations available for selected aiport.`;
 
         return (
-            <Container>
+            <Container className="container-fluid">
                 <Header to="/" label="Go back to Home" />
                 <Row className="subheader__container">
                     <h2>Select your origin and destination airports</h2>
@@ -113,7 +115,7 @@ class Search extends Component {
                     <Col>                        
                         <section>                        
                             <p>Please, search an origin airport</p>
-                            <InputGroup className="mb-3">
+                            <InputGroup className="mb-3" style={{width: '70%'}}>
                                 <FormControl
                                     placeholder="Airport's location or code"
                                     aria-label="Airport's location or code"

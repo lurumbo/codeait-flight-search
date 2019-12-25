@@ -9,11 +9,13 @@ class FlightListItem extends Component {
     render () {
 
         const image = (this.props.type === "OUTBOUND") ? imageASC : imageDESC;
+        const className = (this.props.isActive) ? `airport listitem_active` : `airport`;
+
 
         return (
             <Media 
                 as="li" 
-                className="airport"
+                className={className}
                 onClick={this.props.onClick}
             >
                 <img
@@ -25,7 +27,7 @@ class FlightListItem extends Component {
                 />
                 <Media.Body>
                     <div>
-                        <b>{this.props.code}</b> | <b>{this.props.location}</b>
+                        <span className="airport__code">{this.props.code}</span> | <b>{this.props.location}</b>
                     </div>
                     <div>
                         <ul>

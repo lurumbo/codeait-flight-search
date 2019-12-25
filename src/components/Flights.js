@@ -40,7 +40,7 @@ class Flights extends Component {
         const destinationFlights = this.context.state.destinationFlights;
 
         return (
-            <Container>
+            <Container className="container-fluid">
             <Header to="/search" label="Go back to Search" />
                 <Row className="section__container">
                     <Col>
@@ -56,6 +56,7 @@ class Flights extends Component {
                                 originFlights.map( origin => 
                                     <FlightListItem 
                                         type="OUTBOUND"
+                                        isActive={this.context.state.outboundFlightNo === origin.flightNo ? true : false}
                                         code={origin.origin}
                                         location={originLocation}
                                         departure={origin.departureDate}
@@ -82,6 +83,7 @@ class Flights extends Component {
                                 destinationFlights.map( destination => 
                                     <FlightListItem 
                                         type="INBOUND"
+                                        isActive={this.context.state.inboundFlightNo === destination.flightNo ? true : false}
                                         code={destination.origin}
                                         location={destinationLocation}
                                         departure={destination.departureDate}
@@ -113,7 +115,7 @@ class Flights extends Component {
                     </Col>
                 </Row>
                 <hr/>
-                <Row>
+                <Row className="task__section">
                     <Col>
                         <article>
                             <h3> About choose your outbound flight to Mendoza</h3>

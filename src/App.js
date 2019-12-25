@@ -9,7 +9,7 @@ class App extends Component {
 
   render () {
     return (
-      <Container>
+      <Container className="container-fluid">
         <Header to="/" />
         <Row className="section__container">
           <Col>
@@ -20,7 +20,7 @@ class App extends Component {
         </Row>
         <Row className="action-button__container" style={{textAlign: 'center', marginBottom: 50}}>
           <Col>
-            <Link to="/search" className="btn btn-primary">Search flights!</Link>
+            <Link to="/search" className="btn btn-primary">Search Flights!</Link>
           </Col>
         </Row>
       </Container>

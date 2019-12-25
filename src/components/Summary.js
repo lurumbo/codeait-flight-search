@@ -15,12 +15,12 @@ const SummaryCard = (props) => {
     const arrivalTime = moment(props.arrival).format('hh:mm:ss');
 
     const duration = moment.duration(moment(props.arrival).diff(moment(props.departure)));
-    const hours = duration.asHours();
+    const hours = duration.asHours().toFixed(2);
 
     const image = (props.type === "OUTBOUND") ? imageASC : imageDESC;
 
     return  (
-        <Card bg="light">
+        <Card bg="light" border="primary">
             <Card.Header> 
                 <Image src={image} />
                 <b> {props.type} </b> 
@@ -31,14 +31,14 @@ const SummaryCard = (props) => {
                     {props.originCityName} > {props.destinationCityName} 
                 </Card.Title>
                 <Card.Text>
-                    <b>{props.originCode}</b> {depatureTime} hs
+                    <b className="airport__code">{props.originCode}</b> | {depatureTime} hs
                     <br/>
-                    <span>{props.airportOut?.description}</span>
+                    <span className="card__description">{props.airportOut?.description}</span>
                 </Card.Text>
                 <Card.Text>
-                    <b>{props.destinationCode}</b> {arrivalTime} hs
+                    <b className="airport__code">{props.destinationCode}</b> | {arrivalTime} hs
                     <br/>
-                    <span>{props.airportInb?.description}</span>
+                    <span className="card__description">{props.airportInb?.description}</span>
                 </Card.Text>
                 <Card.Text>
                     Duration {hours} hs
@@ -64,15 +64,14 @@ class Summary extends Component {
         const inboundFlight = this.context.state.inboundFlight;
 
         return (
-            <Container>
+            <Container className="container-fluid">
                 <Header to="/flights" label="Go back to Flights" />
-                <Row className="section__container">
+                <Row className="subheader__container">
                     <Col>
                         <h2>Itinerary</h2>
-                        <br/>
                     </Col>
                 </Row>
-                <Row>
+                <Row className="section__container">
                     <Col>
                         <SummaryCard 
                             type="OUTBOUND"
@@ -106,9 +105,10 @@ class Summary extends Component {
                         />
                     </Col>                
                 </Row>
-                <Row>
+                <Row className="action-button__container">
                     <Col>
-                        <p>Enjoy your trip!</p>
+                        <p style={{fontStyle: 'italic', fontSize: 'x-large', padding: '20px 0 0 0'}}>Enjoy your trip!</p>
+                        <span>✈️</span>
                     </Col>
                 </Row>
             </Container>
