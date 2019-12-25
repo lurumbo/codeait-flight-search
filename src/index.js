@@ -11,7 +11,6 @@ import Summary from './components/Summary';
 import NotFound from './components/NotFound';
 
 import FlightsDataProvider from './components/FlightsDataProvider';
-import FlightsContext from './components/FlightsContext';
 
 const routing = (
     <Router>

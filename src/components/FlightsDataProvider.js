@@ -81,33 +81,32 @@ class FlightsDataProvider extends Component {
         }
         this.setState({
             airportsFiltered: filtered            
-        })
+        });
     }
 
     onClickOutboundFlightHandler (flight) {
         this.setState({
             outboundFlightNo: flight.flightNo
-        })
+        });
     }
 
     onClickInboundFlightHandler (flight) {
         this.setState({
             inboundFlightNo: flight.flightNo
-        })
+        });
     }
-
 
     render () {
         return (
             <FlightsContext.Provider
-            value={{
-                state: this.state,
-                onClickOriginAirportHandler: (airport) => { this.onClickOriginAirportHandler(airport) },
-                onClickDestinationAirportHandler: (destination) => { this.onClickDestinationAirportHandler(destination)},
-                searchInputHandler: (e) => { this.searchInputHandler(e)},
-                onClickOutboundFlightHandler: (flight) => { this.onClickOutboundFlightHandler(flight)},
-                onClickInboundFlightHandler: (flight) => { this.onClickInboundFlightHandler(flight)},
-            }}
+                value={{
+                    state: this.state,
+                    onClickOriginAirportHandler: (airport) => { this.onClickOriginAirportHandler(airport) },
+                    onClickDestinationAirportHandler: (destination) => { this.onClickDestinationAirportHandler(destination)},
+                    searchInputHandler: (e) => { this.searchInputHandler(e)},
+                    onClickOutboundFlightHandler: (flight) => { this.onClickOutboundFlightHandler(flight)},
+                    onClickInboundFlightHandler: (flight) => { this.onClickInboundFlightHandler(flight)},
+                }}
             >
                 {this.props.children}
             </FlightsContext.Provider>

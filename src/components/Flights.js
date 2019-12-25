@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import FlightsContext from './FlightsContext';
 import Header from './Header';
 import FlightListItem from './FlightListItem';
+const queryString = require('query-string');
 
 const Button = (props) => {
 
@@ -18,6 +19,12 @@ const Button = (props) => {
     )
 }
 
+const ContextListInfo = (props) => {
+    const thereAre = <p className='context__list'>Choose an {props.type} flight:</p>;
+    const thereAreNot = <p className='context__list'>There are not {props.type} flights...</p>;
+    const listInfo = props.list?.length === 0 ? thereAreNot : thereAre;
+    return listInfo;
+}
 
 class Flights extends Component {
 
@@ -25,22 +32,33 @@ class Flights extends Component {
 
     render () {
 
-        console.log(this.context)
+        console.log(this.context) 
+
+        const originLocation = this.context.state.airportOriginSelected.location.cityName;
+        const destinationLocation = this.context.state.airportDestinationSelected.location.cityName;
+
+        const originFlights = this.context.state.originFlights;
+        const destinationFlights = this.context.state.destinationFlights;
 
         return (
             <Container>
                 <Header />
                 <Row>
                     <Col>
-                        <h2>Choose your outbound flight from {this.context.state.airportOriginSelected.location.cityName} to {this.context.state.airportDestinationSelected.location.cityName} </h2>
-                        <p>List outbound flights...</p>
+                        <h2>
+                            Choose your outbound flight from {originLocation} to {destinationLocation} 
+                        </h2>
+                        <ContextListInfo 
+                            type="outbound"
+                            list={originFlights}
+                        />
                         <ul className="list-unstyled">
                             {
-                                this.context.state.originFlights.map( origin => 
+                                originFlights.map( origin => 
                                     <FlightListItem 
                                         type="OUTBOUND"
                                         code={origin.origin}
-                                        location={this.context.state.airportOriginSelected.location.cityName}
+                                        location={originLocation}
                                         departure={origin.departureDate}
                                         arrival={origin.arrivalDate}
                                         price={origin.fares[0].prices.afterTax}
@@ -53,15 +71,20 @@ class Flights extends Component {
                         </ul>
                     </Col>
                     <Col>
-                        <h2>Choose your inbound flight from {this.context.state.airportDestinationSelected.location.cityName} to {this.context.state.airportOriginSelected.location.cityName}</h2>
-                        <p>List inbound flights...</p>
+                        <h2>
+                            Choose your inbound flight from {destinationLocation} to {originLocation}
+                        </h2>
+                        <ContextListInfo 
+                            type="inbound"
+                            list={destinationFlights} 
+                        />
                         <ul className="list-unstyled">
                             {
-                                this.context.state.destinationFlights.map( destination => 
+                                destinationFlights.map( destination => 
                                     <FlightListItem 
                                         type="INBOUND"
                                         code={destination.origin}
-                                        location={this.context.state.airportDestinationSelected.location.cityName}
+                                        location={destinationLocation}
                                         departure={destination.departureDate}
                                         arrival={destination.arrivalDate}
                                         price={destination.fares[0].prices.afterTax}
@@ -90,6 +113,9 @@ class Flights extends Component {
                         }
                             
                     </Col>
+                </Row>
+                <Row>
+                    <Link to="/search" className="btn btn-primary">Go back to Search</Link>
                 </Row>
                 <hr/>
                 <Row>
