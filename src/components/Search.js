@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, InputGroup, FormControl, Button } from 'react-bootstrap';
+import { Container, Row, Col, InputGroup, FormControl } from 'react-bootstrap';
 import FlightsContext, {FlightsConsumer} from './FlightsContext';
 import Header from './Header';
 import ListItem from './ListItem';
-import airports from '../data/routes.json';
 
 const ButtonSearch = (props) => {
 

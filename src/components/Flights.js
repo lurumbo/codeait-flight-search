@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import FlightsContext from './FlightsContext';
 import Header from './Header';
 import FlightListItem from './FlightListItem';
-const queryString = require('query-string');
 
 const Button = (props) => {
 
