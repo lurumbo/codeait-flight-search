@@ -114,8 +114,10 @@ class Flights extends Component {
                             
                     </Col>
                 </Row>
-                <Row>
-                    <Link to="/search" className="btn btn-primary">Go back to Search</Link>
+                <Row className="goback__container">
+                    <Col>
+                        <Link to="/search" className="btn btn-primary">Go back to Search</Link>
+                    </Col>
                 </Row>
                 <hr/>
                 <Row>

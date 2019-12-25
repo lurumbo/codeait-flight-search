@@ -45,3 +45,8 @@ body {
 .context__list {
   margin: 20px 0;
 }
+
+.goback__container {
+  margin: 20px;
+  text-align: right;
+}
