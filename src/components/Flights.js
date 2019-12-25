@@ -19,8 +19,8 @@ const Button = (props) => {
 }
 
 const ContextListInfo = (props) => {
-    const thereAre = <p className='context__list'>Choose an {props.type} flight:</p>;
-    const thereAreNot = <p className='context__list'>There are not {props.type} flights...</p>;
+    const thereAre = <p className='flights__list'>Choose an {props.type} flight:</p>;
+    const thereAreNot = <p className='flights__notfound'>Not found {props.type} flights...</p>;
     const listInfo = props.list?.length === 0 ? thereAreNot : thereAre;
     return listInfo;
 }
@@ -41,8 +41,8 @@ class Flights extends Component {
 
         return (
             <Container>
-                <Header />
-                <Row>
+            <Header to="/search" label="Go back to Search" />
+                <Row className="section__container">
                     <Col>
                         <h2>
                             Choose your outbound flight from {originLocation} to {destinationLocation} 
@@ -96,7 +96,7 @@ class Flights extends Component {
                         </ul>
                     </Col>
                 </Row>
-                <Row>
+                <Row className="action-button__container">
                     <Col>
                         {
                             this.context.state.outboundFlightNo && this.context.state.inboundFlightNo ?
@@ -108,14 +108,8 @@ class Flights extends Component {
                                     className="btn btn-primary"
                                 />
                             :
-                                ''
+                                <Link to="/search" className="btn btn-primary">Go back</Link>
                         }
-                            
-                    </Col>
-                </Row>
-                <Row className="goback__container">
-                    <Col>
-                        <Link to="/search" className="btn btn-primary">Go back to Search</Link>
                     </Col>
                 </Row>
                 <hr/>

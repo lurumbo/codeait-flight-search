@@ -65,8 +65,8 @@ class Summary extends Component {
 
         return (
             <Container>
-                <Header />
-                <Row>
+                <Header to="/flights" label="Go back to Flights" />
+                <Row className="section__container">
                     <Col>
                         <h2>Itinerary</h2>
                         <br/>

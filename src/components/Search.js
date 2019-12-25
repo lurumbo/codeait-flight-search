@@ -105,15 +105,13 @@ class Search extends Component {
 
         return (
             <Container>
-                <Header />
-                <Row className="header section__container">
-                    <Col>
-                        <h2>Select your origin</h2>
-                    </Col>
+                <Header to="/" label="Go back to Home" />
+                <Row className="subheader__container">
+                    <h2>Select your origin and destination airports</h2>
                 </Row>
-                <Row className="aiportInformation section__container">
-                    <Col>
-                        <section>
+                <Row className="section__container">
+                    <Col>                        
+                        <section>                        
                             <p>Please, search an origin airport</p>
                             <InputGroup className="mb-3">
                                 <FormControl
@@ -128,21 +126,23 @@ class Search extends Component {
                             <OriginAirportsList />                        
                         </section> 
                     </Col>
-                        <Col>
-                            <p>{destinationMessage}</p>                                                      
-                            <DestinationAirportsList />
-                            <div>
-                                {
-                                    this.context.state.airportDestinationSelected ? 
-                                        <ButtonSearch 
-                                            origin={this.context.state.airportOriginSelected}
-                                            destination={this.context.state.airportDestinationSelected}  
-                                        />
-                                    :
-                                        ''
-                                }
-                            </div>
-                        </Col>
+                    <Col>
+                        <p>{destinationMessage}</p>                                                      
+                        <DestinationAirportsList />                        
+                    </Col>
+                </Row>
+                <Row className="action-button__container">
+                    <Col>
+                    {
+                                this.context.state.airportDestinationSelected ? 
+                                    <ButtonSearch 
+                                        origin={this.context.state.airportOriginSelected}
+                                        destination={this.context.state.airportDestinationSelected}  
+                                    />
+                                :
+                                    ''
+                            }
+                    </Col>
                 </Row>
                 <hr />
                 <CardDescription />

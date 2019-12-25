@@ -9,7 +9,6 @@ import Flights from  './components/Flights';
 import Search from './components/Search';
 import Summary from './components/Summary';
 import NotFound from './components/NotFound';
-
 import FlightsDataProvider from './components/FlightsDataProvider';
 
 const routing = (
