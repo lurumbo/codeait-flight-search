@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Card, Image } from 'react-bootstrap';
 import moment from 'moment';
+import FlightsContext from './FlightsContext';
 import Header from './Header';
-import flightsCOR from '../data/epa-cor.json';
-import flightsMDZ from '../data/epa-mdz.json';
-import airports from '../data/routes.json';
 import imageASC from './airport-24-asc.png';
 import imageDESC from './airport-24-desc.png';
-const queryString = require('query-string');
 
 
 const SummaryCard = (props) => {
@@ -15,7 +12,6 @@ const SummaryCard = (props) => {
     const depatureDay = moment(props.departure).format('YYYY/MM/DD');
     const depatureTime = moment(props.departure).format('hh:mm:ss');
 
-    const arrivalDay = moment(props.arrival).format('YYYY/MM/DD');
     const arrivalTime = moment(props.arrival).format('hh:mm:ss');
 
     const duration = moment.duration(moment(props.arrival).diff(moment(props.departure)));
@@ -58,26 +54,14 @@ const SummaryCard = (props) => {
 
 class Summary extends Component {
 
-    constructor (props) {
-        super(props);
-        const params = queryString.parse(this.props.location.search);
-        const flights = flightsCOR.flights.concat(flightsMDZ.flights);
-        console.log(flights);
-        const outbound = flights.filter(fligth => fligth.flightNo == params.out)[0];
-        const inbound = flights.filter(fligth => fligth.flightNo == params.inb)[0];
-        const airportOut = airports.routes.filter( airport => airport.code === outbound.origin)[0];
-        const airportInb = airports.routes.filter( airport => airport.code === inbound.origin)[0];
-        this.state = {
-            outbound,
-            inbound,
-            airportOut,
-            airportInb
-        }
-    }
+    static contextType = FlightsContext;
 
     render () {
 
-        console.log(this.state);
+        const airportOut = this.context.state.airportOriginSelected;
+        const airportInb = this.context.state.airportDestinationSelected;
+        const outboundFlight = this.context.state.outboundFlight;
+        const inboundFlight = this.context.state.inboundFlight;
 
         return (
             <Container>
@@ -92,33 +76,33 @@ class Summary extends Component {
                     <Col>
                         <SummaryCard 
                             type="OUTBOUND"
-                            airportOut={this.state.airportOut}
-                            airportInb={this.state.airportInb}
-                            departure={this.state.outbound.departureDate}
-                            arrival={this.state.outbound.arrivalDate}
-                            originCityName={this.state.airportOut.location.cityName}
-                            destinationCityName={this.state.airportInb.location.cityName}
-                            originCode={this.state.outbound.origin}
-                            destinationCode={this.state.outbound.destination}
-                            flightNo={this.state.outbound.flightNo}
-                            price={this.state.outbound.fares[0].prices.afterTax}
-                            currency={this.state.outbound.currency}
+                            airportOut={airportOut}
+                            airportInb={airportInb}
+                            departure={outboundFlight.departureDate}
+                            arrival={outboundFlight.arrivalDate}
+                            originCityName={airportOut.location.cityName}
+                            destinationCityName={airportInb.location.cityName}
+                            originCode={outboundFlight.origin}
+                            destinationCode={outboundFlight.destination}
+                            flightNo={outboundFlight.flightNo}
+                            price={outboundFlight.fares[0].prices.afterTax}
+                            currency={outboundFlight.currency}
                         />
                     </Col>
                     <Col>
-                    <SummaryCard 
+                        <SummaryCard 
                             type="INBOUND"
-                            airportOut={this.state.airportInb}
-                            airportInb={this.state.airportOut}
-                            departure={this.state.inbound.departureDate}
-                            arrival={this.state.inbound.arrivalDate}
-                            originCityName={this.state.airportInb.location.cityName}
-                            destinationCityName={this.state.airportOut.location.cityName}
-                            originCode={this.state.inbound.origin}
-                            destinationCode={this.state.inbound.destination}
-                            flightNo={this.state.inbound.flightNo}
-                            price={this.state.inbound.fares[0].prices.afterTax}
-                            currency={this.state.inbound.currency}
+                            airportOut={airportInb}
+                            airportInb={airportOut}
+                            departure={inboundFlight.departureDate}
+                            arrival={inboundFlight.arrivalDate}
+                            originCityName={airportInb.location.cityName}
+                            destinationCityName={airportOut.location.cityName}
+                            originCode={inboundFlight.origin}
+                            destinationCode={inboundFlight.destination}
+                            flightNo={inboundFlight.flightNo}
+                            price={inboundFlight.fares[0].prices.afterTax}
+                            currency={inboundFlight.currency}
                         />
                     </Col>                
                 </Row>

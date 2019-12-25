@@ -17,7 +17,9 @@ class FlightsDataProvider extends Component {
             originFlights: null,
             destinationFlights: null,
             outboundFlightNo: null,
-            inboundFlightNo: null
+            inboundFlightNo: null,
+            outboundFlight: null,
+            inboundFlight: null
         }
     }
 
@@ -84,15 +86,25 @@ class FlightsDataProvider extends Component {
         });
     }
 
+    /**
+     * Select origin flight in Flights Screen 
+     * @param {*} flight 
+     */
     onClickOutboundFlightHandler (flight) {
         this.setState({
-            outboundFlightNo: flight.flightNo
+            outboundFlightNo: flight.flightNo,
+            outboundFlight: flight
         });
     }
 
+    /**
+     * Select destination flight in Flights Screen
+     * @param {*} flight 
+     */
     onClickInboundFlightHandler (flight) {
         this.setState({
-            inboundFlightNo: flight.flightNo
+            inboundFlightNo: flight.flightNo,
+            inboundFlight: flight
         });
     }
 

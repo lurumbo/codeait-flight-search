@@ -26,7 +26,11 @@ const routing = (
                     <Flights />           
                 </FlightsDataProvider>
             </Route>
-            <Route path="/summary" component={Summary} />
+            <Route path="/summary">
+                <FlightsDataProvider>
+                    <Summary />           
+                </FlightsDataProvider>
+            </Route>
             <Route component={NotFound} />
         </Switch>
     </Router>
