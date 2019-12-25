@@ -1,27 +1,65 @@
 body {
   background-color: #F0F3F5;
+  color: #666666;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .section__container {
   background-color: white;
   border-radius: 5px;
+  padding: 50px 60px;
+}
+
+.subheader__container {
+  background-color: white;
+  border-radius: 5px;
+  padding: 50px 60px 0 60px;
+}
+
+.action-button__container {
+  background-color: white;
+  border-radius: 5px;
+  padding: 30px 60px 30px 60px;
+  text-align: right;
 }
 
 .header h1 {
-  margin: 30px 0 20px 0;
+  margin: 30px 0 10px 0;
+  font-size: xx-large;
 }
 
 .header h2 {
   margin: 20px 0 20px 0;
+  color: #777777;
 }
 
 .header__link {
-  color: black;
+  color: #666666;
 }
 
 .header__link:hover {
   text-decoration: none;
-  color: black;
+  color: #666666;
+}
+
+.header p {
+  font-style: italic;
+}
+
+.header-goback__container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.header-goback__container a {
+  margin: 10px 0;
+}
+
+.carousel__img {
+  width: 1000px;
+  height: 550px;
+  border-radius: 3px;
 }
 
 .airport {
@@ -42,8 +80,13 @@ body {
   
 }
 
-.context__list {
+.flights__list {
   margin: 20px 0;
+}
+
+.flights__notfound  {
+  margin: 50px 0;
+  text-align: center;
 }
 
 .goback__container {
